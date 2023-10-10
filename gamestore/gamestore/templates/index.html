@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="has-background-grey">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    
+</head>
+<body>
+  {% load custom_tags %}
+
+  {% include 'navbar.html' %}
+
+  <div class="container p-5">
+
+    <form action="?search={{search}}" class="field has-addons is-mobile is-justify-content-end pb-5">
+      <div class="control">
+        <input id="searchbar" name="search" type="search" class="input" placeholder="Procurar Produto por Nome">
+      </div>
+      <div class="control">
+        <button action="submit" class="button is-info">Buscar</a>
+      </div>
+    </form>
+
+    {% if search != '' and search is not None %}
+    <div class="pb-3 control has-text-white-ter is-align-items-center">Mostrando resultados da busca por: {{search}} - <a class="is-link has-text-white-bis has-background-danger" href="{% url 'home' %}">limpar</a></div>
+    {% endif %}
+
+    <div>
+      <div class="list has-text-white-ter">
+        <div class="columns list-item has-text-weight-semibold is-align-items-center p-0">
+          <div class="column">Produto</div>
+          <div class="column">Quantidade Em Estoque</div>
+          <div class="column">Número de Pedidos</div>
+          <div class="column">Preço de Custo</div>
+          <div class="column">Preço de venda</div>
+          <div class="column p-0">
+            <a class="column" href="{% url 'registrar' %}">
+              <div class="button has-text-white is-success ">Registrar Novo Produto</div>
+            </a>
+          </div>
+        </div>
+
+        {% for jogo in jogos.object_list %}
+        <div class="list-item columns is-align-items-center p-0">
+          <div class="column">{{jogo.nome}}</div>
+          <div class="column">{{jogo.qtt}}</div>
+          <div class="column">{{jogo.pedidos}}</div>
+          <div class="column">R$ {{jogo.preco_custo}}</div>
+          <div class="column">R$ {{jogo.preco_venda}}</div>
+          <div class="column">
+            <a class="button is-warning" href="{% url 'editar' jogo.id %}">Editar</a>
+            <a class="button is-danger" href="{% url 'apagar' jogo.id %}">Apagar</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <nav class="pagination-list py-5">
+        {% if jogos.has_previous %}
+        <a class="pagination-link" href="?{% query_transform page=1 %}"><div>1</div></a>
+        {% if jogos.number > 2 %}
+        <span class="pagination-ellipsis">&hellip;</span>
+        {% endif %}
+        {% endif %}
+
+        {% if jogos.previous_page_number > 1 %}
+        <a class="pagination-link" href="?{% query_transform page=jogos.previous_page_number %}"><div>{{jogos.previous_page_number}}</div></a>
+        {% endif %}
+
+        <div class="pagination-link is-current">Página {{jogos.number}}</div>
+
+        {% if jogos.has_next %}
+        <a class="pagination-link" href="?{% query_transform page=jogos.next_page_number %}"><div>{{jogos.next_page_number}}</div></a>
+        {% endif %}
+
+        {% if jogos.next_page_number < jogos.paginator.num_pages %}
+        <span class="pagination-ellipsis">&hellip;</span>
+        <a class="pagination-link" href="?{% query_transform page=jogos.paginator.num_pages %}"><div>{{jogos.paginator.num_pages}}</div></a>
+        {% endif %}
+      </nav>
+    </div>
+
+  </div>
+</body>
+
+</html>

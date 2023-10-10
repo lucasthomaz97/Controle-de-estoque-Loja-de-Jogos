@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="has-background-grey">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <title>Novo Registro</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container">
+        <div class="title has-text-white-ter">Novo Registro de Produto</div>
+        
+        <form class="list has-text-white-ter" action="{% url 'salvar' %}" method="POST">
+            {% csrf_token %}
+            <div class="list-item columns py-2">
+                <label class="column label has-text-white-ter" for="name">Nome:</label>
+                <input class="column input has-background-grey-lighter" type="text" name="nome" id="name" required>
+            </div>
+            
+            <div class="list-item py-2 control columns">
+                <div class="column"><label class=" label has-text-white-ter" for="description">Descrição:</label></div>
+                <div class="column is-justify-content-end"><textarea class=" textarea has-background-grey-lighter" name="desc" id="description" cols="15" rows="5"></textarea></div>
+            </div>
+
+            <div class="list-item columns py-2">
+                <label class="column label has-text-white-ter" for="qtt">Quantidade em Estoque:</label>
+                <input class="column input has-background-grey-lighter" pattern="[0-9]{1,}" name="qtt" id="quantity" required>
+            </div>
+
+            <div class="list-item columns py-2">
+                <label class="column label has-text-white-ter" for="orders">Quantidade de Pedidos:</label>
+                <input class="column input has-background-grey-lighter" pattern="[0-9]{1,}" name="pedidos" id="orders" required>
+            </div>
+
+            <div class="list-item columns py-2">
+                <label class="column label has-text-white-ter" for="basePrice">Preço de Custo:</label>
+                <input class="column input has-background-grey-lighter" pattern="[0-9]+.[0-9]{0,2}" name="preco_custo" id="basePrice" required>
+            </div>
+
+            <div class="list-item columns py-2">
+                <label class="column label has-text-white-ter" for="retailPrice">Preço de Venda:</label>
+                <input class="column input has-background-grey-lighter" pattern="[0-9]+.[0-9]{0,2}" name="preco_venda" id="retailPrice" required>
+            </div>
+
+            <button class="button is-success py-2" type="submit">Registrar</button>
+        </form>
+    </div>
+    
+</body>
+</html>
