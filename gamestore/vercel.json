@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "gamestore/wsgi.py",
+        "src": "gamestore/gamestore/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.11" }
       }
@@ -10,7 +10,7 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "gamestore/wsgi.py"
+        "dest": "gamestore/gamestore/wsgi.py"
       }
     ]
   }
